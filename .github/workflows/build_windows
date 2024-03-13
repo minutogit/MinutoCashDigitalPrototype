@@ -1,0 +1,25 @@
+name: Build with Nuitka on Windows
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4 
+    - name: Set up Node.js
+      uses: actions/setup-node@v4 
+      with:
+        node-version: '20' # Spezifizieren Sie Node.js 20
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install nuitka PySide6 base58==2.1.1 cryptography==3.4.8 mnemonic==0.21 PySide6==6.6.1 PySide6_Addons==6.6.1 PySide6_Essentials==6.6.1 shiboken6==6.6.1
+
+    - name: Compile with Nuitka
+      run: |
+        python.exe -m nuitka --follow-imports --include-module=mnemonic --enable-plugin=pyside6 --disable-console --standalone --output-dir=./build --output-filename=eMinuto.exe main_qt.py --assume-yes-for-downloads
+      working-directory: .
