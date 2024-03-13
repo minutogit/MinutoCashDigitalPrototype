@@ -1,8 +1,5 @@
 name: Build with Nuitka on Windows
 
-# on: 
-#   push:
-
 on: 
   workflow_dispatch:
 
@@ -11,11 +8,11 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3 # Aktualisiert auf v3
-    - name: Set up Python
-      uses: actions/setup-python@v4 
+    - uses: actions/checkout@v4 # Aktualisiert auf die neueste Version
+    - name: Set up Node.js
+      uses: actions/setup-node@v4 # Aktualisiert auf die neueste Version, unterstützt Node.js 20
       with:
-        python-version: '3.10'
+        node-version: '20' # Spezifizieren Sie Node.js 20
 
     - name: Install Dependencies
       run: |
