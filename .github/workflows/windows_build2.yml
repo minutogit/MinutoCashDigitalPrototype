@@ -1,7 +1,11 @@
-name: Build with Nuitka on Windows
+name: Build Windows with Release
 
 on: 
   workflow_dispatch:
+
+permissions: # Explicitly setting permissions
+  contents: read
+  issues: write
 
 jobs:
   build:
@@ -23,13 +27,12 @@ jobs:
       run: |
         python.exe -m nuitka --follow-imports --include-module=mnemonic --enable-plugin=pyside6 --disable-console --standalone --output-dir=./build --output-filename=eMinuto.exe main_qt.py --assume-yes-for-downloads
 
-    - name: Rename and Zip the build directory
+    - name: Rename and Zip Output
       run: |
-        Move-Item ./build/main_qt.dist ./build/eMinuto
-        Compress-Archive -Path ./build/eMinuto -DestinationPath ./build/eMinuto.zip
+        Rename-Item ./build/main_qt.dist eMinuto
+        Compress-Archive -Path ./eMinuto/* -DestinationPath ./eMinuto.zip
 
     - name: Create Release
-      id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -45,6 +48,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./build/eMinuto.zip
+        asset_path: ./eMinuto.zip
         asset_name: eMinuto.zip
         asset_content_type: application/zip
