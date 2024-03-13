@@ -21,4 +21,8 @@ jobs:
 
     - name: Compile with Nuitka
       run: |
-        python -m nuitka --output-filename=eMinuto --output-dir=${{ github.workspace }}\eMinuto --follow-imports --include-module=mnemonic --enable-plugin=pyside6 --standalone main_qt.py
+        python.exe -m nuitka --follow-imports --include-module=mnemonic --enable-plugin=pyside6 --disable-console --standalone --output-dir=eMinuto --output-filename=eMinuto.exe main_qt.py
+
+
+
+
