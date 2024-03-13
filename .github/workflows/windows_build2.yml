@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 permissions: # Explicitly setting permissions
-  contents: read
+  contents: write
   issues: write
 
 jobs:
@@ -36,12 +36,13 @@ jobs:
     - name: Create Release
       uses: actions/create-release@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.YOUR_PAT_SECRET_NAME }}
       with:
-        tag_name: ${{ github.run_id }}
-        release_name: Release-${{ github.run_id }}
+        tag_name: ${{ github.ref }}
+        release_name: Release-${{ github.ref }}
         draft: false
         prerelease: false
+
 
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
