@@ -34,7 +34,8 @@ jobs:
       shell: pwsh
 
     - name: Create Release
-      uses: actions/create-release@v1
+      id: create_release
+      uses: actions/create-release@v2 # Aktualisieren Sie auf die neueste Version
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -42,13 +43,13 @@ jobs:
         release_name: Release ${{ github.ref_name }}
         draft: false
         prerelease: false
-
+    
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./eMinuto.zip
-        asset_name: eMinuto.zip
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # Verwendung der Ausgabe von create_release
+        asset_path: ./path/to/asset
+        asset_name: name_of_asset.zip
         asset_content_type: application/zip
