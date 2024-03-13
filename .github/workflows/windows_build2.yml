@@ -29,8 +29,9 @@ jobs:
 
     - name: Rename and Zip Output
       run: |
-        Rename-Item ./build/main_qt.dist ./build/eMinuto
-        Compress-Archive -Path ./build/eMinuto -DestinationPath ./build/eMinuto.zip
+        Move-Item ./build/main_qt.dist ./build/eMinuto
+        Compress-Archive -Path ./build/eMinuto/* -DestinationPath ./build/eMinuto.zip
+      shell: pwsh
 
     - name: Create Release
       uses: actions/create-release@v1
